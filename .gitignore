@@ -1,0 +1,6 @@
+Versiones/
+node_modules/
+.DS_Store
+netlify/
+netlify.toml
+_redirects

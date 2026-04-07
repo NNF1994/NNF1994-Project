@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "cleanUrls": true,
+  "rewrites": [
+    {
+      "source": "/dreamlo-proxy/:path*",
+      "destination": "http://dreamlo.com/lb/:path*"
+    },
+    {
+      "source": "/.netlify/functions/:path*",
+      "destination": "/api/:path*"
+    }
+  ]
+}

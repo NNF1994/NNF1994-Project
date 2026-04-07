@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>API Test</title>
+</head>
+
+<body>
+    <h1>API Test</h1>
+    <div id="output">Testing...</div>
+    <script>
+        fetch('https://api.dexscreener.com/latest/dex/tokens/HU7YsnzuEvdBgRnEjk3GaJYTk7KgXXd1pfnTJ13npump')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('output').innerText = JSON.stringify(data, null, 2);
+            })
+            .catch(error => {
+                document.getElementById('output').innerText = 'Error: ' + error;
+            });
+    </script>
+</body>
+
+</html>

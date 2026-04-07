@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NNF 1994 - The Spirit of 1994</title>
+    <link rel="stylesheet" href="styles.css?v=5.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="scanlines"></div>
+
+    <header>
+        <div class="container">
+            <div class="logo">
+                <img src="logo.jpg" alt="NNF 1994 Logo">
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#tokenomics">Tokenomics</a></li>
+                    <li><a href="#roadmap">Roadmap</a></li>
+                    <li><a href="#how-to-buy">How to Buy</a></li>
+                    <li><a href="#leaderboard-section" class="highlight-link">Hall of Fame</a></li>
+                </ul>
+                <div class="header-actions">
+                    <a href="https://x.com/nnf1994coin?s=21&t=MWhIOJhjTrpGVnS_3wkEg" target="_blank"
+                        class="social-icon">X</a>
+                    <a href="https://t.me/nnf1994officialgroup" target="_blank" class="social-icon">TG</a>
+                    <button id="play-game" class="btn-retro btn-play">GAMES</button>
+                    <button id="connect-wallet" class="btn-retro">Connect Wallet</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Game Modal -->
+    <div id="game-modal" class="modal hidden">
+        <div class="modal-content">
+            <span id="close-game" class="close-btn">&times;</span>
+
+            <!-- Game Selector -->
+            <div id="game-selector">
+                <h2 class="glitch" data-text="CHOOSE GAME">CHOOSE GAME</h2>
+                <div class="game-options">
+                    <button id="play-tetris" class="btn-retro btn-large">NNF TETRIS</button>
+                    <button id="play-snake" class="btn-retro btn-large">NNF SNAKE</button>
+                </div>
+            </div>
+
+            <!-- Tetris Container -->
+            <div id="tetris-container" class="game-wrapper hidden">
+                <h2 class="glitch" data-text="NNF TETRIS">NNF TETRIS</h2>
+                <div class="game-container">
+                    <canvas id="tetris" width="240" height="400"></canvas>
+                    <div class="game-info">
+                        <div class="score-box">
+                            <span>SCORE</span>
+                            <div id="tetris-score">0</div>
+                        </div>
+                        <div class="score-box highlight higher-score-gameplay">
+                            <span>HIGHER SCORE</span>
+                            <div id="tetris-high-score">0</div>
+                        </div>
+                        <div class="controls-info">
+                            <p>← → : Move</p>
+                            <p>↑ : Rotate</p>
+                            <p>↓ : Drop</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Snake Container -->
+            <div id="snake-container" class="game-wrapper hidden">
+                <h2 class="glitch" data-text="NNF SNAKE">NNF SNAKE</h2>
+                <div class="game-container">
+                    <canvas id="snake" width="400" height="400"></canvas>
+                    <div class="game-info">
+                        <div class="score-box">
+                            <span>SCORE</span>
+                            <div id="snake-score">0</div>
+                        </div>
+                        <div class="score-box highlight higher-score-gameplay">
+                            <span>HIGHER SCORE</span>
+                            <div id="snake-high-score">0</div>
+                        </div>
+                        <div class="controls-info">
+                            <p>ARROWS : Move</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mobile Controls -->
+            <div id="mobile-controls">
+                <button class="control-btn control-up" id="btn-up">↑</button>
+                <button class="control-btn control-left" id="btn-left">←</button>
+                <button class="control-btn control-down" id="btn-down">↓</button>
+                <button class="control-btn control-right" id="btn-right">→</button>
+            </div>
+
+            <!-- Shared Game Over Screen -->
+            <div id="game-over" class="hidden">
+                <h3 class="blink">GAME OVER</h3>
+                <p>You played NNF 1994</p>
+                <div class="game-over-scores">
+                    <p>SCORE: <span id="final-score">0</span></p>
+                    <p>HIGHER SCORE: <span id="higher-score-display">0</span></p>
+                </div>
+                <div id="new-high-score" class="hidden">
+                    <p class="highlight">NEW HIGH SCORE!</p>
+                    <input type="text" id="player-name" placeholder="YOUR NAME" maxlength="15" class="input-retro">
+                    <button id="submit-score" class="btn-retro btn-small">Submit Score</button>
+                </div>
+                <button id="share-x" class="btn-retro">Share on X</button>
+                <button id="restart-game" class="btn-retro btn-small">Try Again</button>
+                <button id="back-to-menu" class="btn-retro btn-small btn-secondary">Menu</button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Wallet Modal -->
+    <div id="wallet-modal" class="modal hidden">
+        <div class="modal-content">
+            <span id="close-wallet" class="close-btn">&times;</span>
+            <h2 class="glitch" data-text="WALLET INFO">WALLET INFO</h2>
+            <div class="wallet-details">
+                <p>CONNECTED AS:</p>
+                <div id="wallet-address-full" class="highlight-box">Loading...</div>
+
+                <p>YOUR BALANCE:</p>
+                <div class="balance-box">
+                    <span id="wallet-balance">0</span> <span class="currency">NNF</span>
+                </div>
+
+                <button id="disconnect-wallet" class="btn-retro btn-danger">DISCONNECT</button>
+            </div>
+        </div>
+    </div>
+
+    <main>
+        <section id="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h1>NNF 1994</h1>
+                    <h2>The Spirit of 1994</h2>
+                    <p>This isn’t early. This is raw.<br>
+                        No presales. No promises.<br>
+                        Just culture, nostalgia, and community.</p>
+                    <div class="cta-group">
+                        <a href="https://pump.fun/HU7YsnzuEvdBgRnEjk3GaJYTk7KgXXd1pfnTJ13npump" target="_blank"
+                            class="btn-retro btn-large">Buy $NNF1994</a>
+                        <a href="whitepaper.html" class="btn-retro btn-large btn-secondary">Whitepaper</a>
+                    </div>
+                    <div class="ca-box">
+                        <span>CA:</span>
+                        <code id="ca-text">HU7YsnzuEvdBgRnEjk3GaJYTk7KgXXd1pfnTJ13npump</code>
+                        <button id="copy-ca" class="btn-retro btn-small">Copy</button>
+                    </div>
+                    <div class="stats">
+                        <div class="stat-box">
+                            <span>Market Cap</span>
+                            <strong id="market-cap">$0</strong>
+                        </div>
+                        <div class="stat-box">
+                            <span>1 NNF1994 =</span>
+                            <strong id="token-price">$0.00</strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <img src="collage.jpg" alt="1994 Collage">
+                </div>
+            </div>
+        </section>
+
+        <section id="about">
+            <div class="container">
+                <h2>What is NNF 1994?</h2>
+                <div class="content-grid">
+                    <div class="text-block">
+                        <p>NNF 1994 is not a product.<br>
+                            It’s a signal from another era.</p>
+                        <p>Built on memory, not momentum.</p>
+                        <p>No roadshows. No artificial growth.<br>
+                            Just people who remember where this all started.</p>
+                    </div>
+                    <div class="image-block">
+                        <!-- Placeholder or reuse logo -->
+                        <img src="logo.jpg" alt="NNF 1994 Symbol">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="tokenomics">
+            <div class="container">
+                <h2>Fair Launch</h2>
+                <div class="token-grid">
+                    <div class="token-card">
+                        <h3>Fair Launch Model</h3>
+                        <p>100% of supply minted at launch</p>
+                        <p>No private presale</p>
+                        <p>No VC allocation</p>
+                        <p>No team unlocks</p>
+                        <p>Community-driven distribution</p>
+                    </div>
+                    <div class="token-card">
+                        <h3>Supply</h3>
+                        <p>Total supply: ~1B NNF</p>
+                        <p>Network: Solana</p>
+                        <p>Launch platform: pump.fun</p>
+                    </div>
+                    <div class="token-card">
+                        <h3>Liquidity</h3>
+                        <p>Liquidity is handled by the pump.fun bonding curve</p>
+                        <p>No manual LP manipulation</p>
+                    </div>
+                    <div class="token-card">
+                        <h3>Team</h3>
+                        <p>Anonymous / culture-first</p>
+                        <p>No special token allocation</p>
+                        <p>Team participates like everyone else</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="roadmap">
+            <div class="container">
+                <h2>Roadmap</h2>
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <h3>Phase 1 — Foundation</h3>
+                        <p>Establish tone, visuals, and community voice. Launch website and token.</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <h3>Phase 2 — Culture Building</h3>
+                        <p>Release interactive content (mini-game). Strengthen visual identity.</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <h3>Phase 3 — Expansion</h3>
+                        <p>Community-led ideas. Creative collaborations. Experimental features driven by culture.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="how-to-buy">
+            <div class="container">
+                <h2>How to Buy</h2>
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <h3>Create Wallet</h3>
+                        <p>Create your Phantom Wallet. If you don't have one, we suggest Phantom for desktop.</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <h3>Load Crypto</h3>
+                        <p>Load your favorite crypto onto your wallet. ETH, USDT, and BNB are accepted.</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <h3>Buy & Stake</h3>
+                        <p>Connect your wallet. Choose the amount of $NNF1994 you want to buy, then Buy or Buy and
+                            Stake.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="leaderboard-section">
+            <div class="container">
+                <h2 class="glitch" data-text="HALL OF FAME">HALL OF FAME</h2>
+                <div style="text-align: center; margin-bottom: 10px;">
+                    <span class="live-indicator">● LIVE GLOBAL</span>
+                </div>
+                <div class="platform-indicator desktop-only">(PC)</div>
+                <div class="platform-indicator mobile-only">(Mobil)</div>
+                <div class="leaderboard-container">
+                    <div class="leaderboard-column">
+                        <h3>TETRIS</h3>
+                        <ul id="tetris-leaderboard" class="score-list">
+                            <li><span>1. AAA</span> <span>0</span></li>
+                        </ul>
+                    </div>
+                    <div class="leaderboard-column">
+                        <h3>SNAKE</h3>
+                        <ul id="snake-leaderboard" class="score-list">
+                            <li><span>1. AAA</span> <span>0</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 NNF 1994. All rights reserved.</p>
+            <div class="socials">
+                <a href="https://x.com/nnf1994coin?s=21&t=MWhIOJhjTrpGVnS_3wkEg" target="_blank"
+                    style="font-size: 1.5rem;">𝕏</a>
+                <a href="https://t.me/nnf1994officialgroup" target="_blank" style="font-size: 1.5rem;">✈️</a>
+            </div>
+        </div>
+    </footer>
+
+    <div style="text-align: center; color: #444; font-size: 10px; padding: 10px;">V5.0 (Global Live)</div>
+    <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <!-- Add Firebase products that you want to use -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+    <script src="tetris.js?v=5.0"></script>
+    <script src="snake.js?v=5.0"></script>
+    <script src="script.js?v=5.0"></script>
+</body>
+
+</html>

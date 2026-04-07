@@ -1,0 +1,10 @@
+{
+  "name": "1994-coin-project",
+  "version": "1.0.0",
+  "description": "1994 Coin Arcade Project",
+  "main": "index.html",
+  "dependencies": {},
+  "engines": {
+    "node": "18.x"
+  }
+}
