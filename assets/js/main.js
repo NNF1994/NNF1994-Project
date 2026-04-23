@@ -31,17 +31,108 @@ gsap.ticker.lagSmoothing(0, 0);
 
 document.addEventListener("DOMContentLoaded", (event) => {
     
-    // --- 1. HERO ANIMATIONS ---
-    const heroTl = gsap.timeline();
-    
-    // Slight zoom on background image
-    heroTl.to(".hero-img-wrapper img", {
-        scale: 1,
-        duration: 3,
-        ease: "power2.out"
-    }, 0);
+    // --- 0. APPLICATION FORM LOGIC (CRITICAL - MOVED TO TOP) ---
+    const applyBtn = document.getElementById('start-app-btn');
+    const closeBtn = document.getElementById('close-app-btn');
+    const appContainer = document.getElementById('application-flow');
+    const steps = document.querySelectorAll('.form-step');
+    const progressFill = document.querySelector('.progress-fill');
+    const totalSteps = steps.length;
+    let currentStepIndex = 0;
 
-    // Text glitch setup
+    // Support for both modal and standalone page
+    if (applyBtn && appContainer) {
+        applyBtn.addEventListener('click', () => {
+            appContainer.classList.remove('hidden');
+            lenis.stop();
+        });
+    }
+
+    const closeApp = () => {
+        if (appContainer) {
+            appContainer.classList.add('hidden');
+            lenis.start();
+        }
+    };
+
+    if (closeBtn) closeBtn.addEventListener('click', closeApp);
+    
+    const finishBtn = document.getElementById('finish-btn');
+    if (finishBtn) finishBtn.addEventListener('click', closeApp);
+
+    const updateProgress = () => {
+        if (!progressFill || totalSteps === 0) return;
+        const percent = ((currentStepIndex + 1) / totalSteps) * 100;
+        progressFill.style.width = `${percent}%`;
+    };
+
+    const goToNextStep = () => {
+        if(steps.length > 0 && currentStepIndex < totalSteps - 1) {
+            steps[currentStepIndex].classList.remove('active');
+            currentStepIndex++;
+            steps[currentStepIndex].classList.add('active');
+            updateProgress();
+            
+            if (window.innerWidth < 768 && appContainer) {
+                lenis.scrollTo(appContainer, { offset: -20 });
+            }
+        }
+    };
+
+    // Option buttons listeners
+    document.querySelectorAll('.opt-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const button = e.target.closest('.opt-btn');
+            const parentStep = button.closest('.form-step');
+            if (!parentStep) return;
+
+            parentStep.querySelectorAll('.opt-btn').forEach(b => b.classList.remove('selected'));
+            button.classList.add('selected');
+
+            setTimeout(() => goToNextStep(), 300);
+        });
+    });
+
+    // Input/Textarea listeners
+    document.querySelectorAll('input, textarea').forEach(field => {
+        const parentStep = field.closest('.form-step');
+        if (!parentStep) return;
+        const nextBtn = parentStep.querySelector('.next-btn');
+        if(!nextBtn) return;
+
+        field.addEventListener('input', () => {
+            const inputs = parentStep.querySelectorAll('input[required]');
+            const textarea = parentStep.querySelector('textarea');
+            let isValid = true;
+
+            if (inputs.length > 0) {
+                inputs.forEach(inp => {
+                    const val = inp.value.trim();
+                    if (val === "") isValid = false;
+                    if (inp.type === 'email' && (!val.includes('@') || !val.includes('.'))) isValid = false;
+                });
+            } else if (textarea) {
+                if (textarea.value.trim().length <= 5) isValid = false;
+            }
+
+            if (isValid) nextBtn.removeAttribute('disabled');
+            else nextBtn.setAttribute('disabled', 'true');
+        });
+
+        if(!nextBtn.dataset.navListener) {
+            nextBtn.addEventListener('click', () => goToNextStep());
+            nextBtn.dataset.navListener = 'true';
+        }
+    });
+
+    updateProgress();
+
+    // --- 1. HERO ANIMATIONS ---
+    const heroImg = document.querySelector('.hero-img-wrapper img');
+    if (heroImg) {
+        gsap.to(heroImg, { scale: 1, duration: 3, ease: "power2.out" });
+    }
+
     const glitchText = document.querySelector('.glitch');
     if(glitchText) {
         setInterval(() => {
@@ -59,53 +150,38 @@ document.addEventListener("DOMContentLoaded", (event) => {
         }, 1200);
     }
 
-
-    // --- 2. MANIFESTO ANIMATIONS (STAGGERED PARALLAX) ---
+    // --- 2. MANIFESTO ANIMATIONS ---
     const manifestoLines = document.querySelectorAll('.manifesto-text .line');
-    manifestoLines.forEach((line, index) => {
-        gsap.fromTo(line, 
-            { opacity: 0, y: 30 + (index * 20) }, // Staggered y starting pos
-            {
-                scrollTrigger: {
-                    trigger: ".manifesto-section",
-                    start: "top 80%",
-                    end: "bottom top",
-                    scrub: 1
-                },
-                opacity: 1,
-                y: - (index * 25), // Faster scrolling for deeper lines
-                ease: "none"
-            }
-        );
-    });
-
+    if (manifestoLines.length > 0 && document.querySelector('.manifesto-section')) {
+        manifestoLines.forEach((line, index) => {
+            gsap.fromTo(line, 
+                { opacity: 0, y: 30 + (index * 20) }, 
+                {
+                    scrollTrigger: {
+                        trigger: ".manifesto-section",
+                        start: "top 80%",
+                        end: "bottom top",
+                        scrub: 1
+                    },
+                    opacity: 1,
+                    y: - (index * 25),
+                    ease: "none"
+                }
+            );
+        });
+    }
 
     // --- 2.5. WHAT WE DO SECTION ---
-    gsap.from(".wwd-header, .wwd-core", {
-        scrollTrigger: {
-            trigger: "#what-we-do",
-            start: "top 80%",
-        },
-        y: 30,
-        opacity: 0,
-        duration: 0.8,
-        stagger: 0.15,
-        ease: "power3.out"
-    });
-
-    gsap.to(".wwd-block", {
-        scrollTrigger: {
-            trigger: ".wwd-grid",
-            start: "top 85%",
-        },
-        opacity: 1,
-        y: 0,
-        duration: 0.6,
-        stagger: 0.1,
-        ease: "power2.out"
-    });
-
-
+    if (document.querySelector('#what-we-do')) {
+        gsap.from(".wwd-header, .wwd-core", {
+            scrollTrigger: { trigger: "#what-we-do", start: "top 80%" },
+            y: 30, opacity: 0, duration: 0.8, stagger: 0.15, ease: "power3.out"
+        });
+        gsap.to(".wwd-block", {
+            scrollTrigger: { trigger: ".wwd-grid", start: "top 85%" },
+            opacity: 1, y: 0, duration: 0.6, stagger: 0.1, ease: "power2.out"
+        });
+    }
 
     // --- 3. SYSTEM SECTION — Node & Legend click routing ---
     document.querySelectorAll('.node[data-href], .legend-item[data-href]').forEach(el => {
@@ -114,100 +190,76 @@ document.addEventListener("DOMContentLoaded", (event) => {
             const href = el.dataset.href;
             if (href.startsWith('#')) {
                 const target = document.querySelector(href);
-                if (target) {
-                    lenis.scrollTo(target, { offset: -80, duration: 1.2 });
-                }
+                if (target) lenis.scrollTo(target, { offset: -80, duration: 1.2 });
             } else {
-                // Redirect to sub-page
                 window.location.href = href;
             }
         });
     });
 
-    // --- 3. SYSTEM SECTION PARALLAX ---
-    gsap.to(".system-visual", {
-        scrollTrigger: {
-            trigger: ".system-section",
-            start: "top bottom",
-            end: "bottom top",
-            scrub: 1
-        },
-        y: -50,
-        ease: "none"
-    });
-
+    if (document.querySelector('.system-section')) {
+        gsap.to(".system-visual", {
+            scrollTrigger: { trigger: ".system-section", start: "top bottom", end: "bottom top", scrub: 1 },
+            y: -50, ease: "none"
+        });
+    }
 
     // --- 4. PROCESS HORIZONTAL SCROLL ---
     const horizontalContainer = document.querySelector(".horizontal-track");
-    
-    gsap.to(horizontalContainer, {
-        x: () => -(horizontalContainer.scrollWidth - window.innerWidth),
-        ease: "none",
-        scrollTrigger: {
-            trigger: ".process-section",
-            pin: true,
-            pinSpacing: true,
-            scrub: 1,
-            start: "top top",
-            end: () => "+=" + document.querySelector(".process-bg").offsetWidth
+    const processSection = document.querySelector(".process-section");
+    if (horizontalContainer && processSection) {
+        gsap.to(horizontalContainer, {
+            x: () => -(horizontalContainer.scrollWidth - window.innerWidth),
+            ease: "none",
+            scrollTrigger: {
+                trigger: ".process-section",
+                pin: true,
+                pinSpacing: true,
+                scrub: 1,
+                start: "top top",
+                end: () => "+=" + horizontalContainer.scrollWidth
+            }
+        });
+
+        if (document.querySelector(".process-bg")) {
+            gsap.to(".process-bg", {
+                x: () => -(window.innerWidth / 2),
+                ease: "none",
+                scrollTrigger: { trigger: ".process-section", scrub: 1, start: "top top", end: () => "+=" + horizontalContainer.scrollWidth }
+            });
         }
-    });
+    }
 
-    // Process BG Parallax (Slower than track — targets div, not removed img)
-    gsap.to(".process-bg", {
-        x: () => -(window.innerWidth / 2),
-        ease: "none",
-        scrollTrigger: {
-            trigger: ".process-section",
-            scrub: 1,
-            start: "top top",
-            end: () => "+=" + horizontalContainer.scrollWidth
-        }
-    });
-
-
-    // --- 5. RESULTS COUNTERS (Visual Impact) ---
+    // --- 5. RESULTS COUNTERS ---
     const resultItems = document.querySelectorAll('.result-item');
-    gsap.from(resultItems, {
-        scrollTrigger: {
-            trigger: ".results-section",
-            start: "top 70%",
-        },
-        y: 50,
-        opacity: 0,
-        duration: 0.8,
-        stagger: 0.2,
-        ease: "power3.out"
-    });
-
+    if (resultItems.length > 0 && document.querySelector('.results-section')) {
+        gsap.from(resultItems, {
+            scrollTrigger: { trigger: ".results-section", start: "top 70%" },
+            y: 50, opacity: 0, duration: 0.8, stagger: 0.2, ease: "power3.out"
+        });
+    }
 
     // --- 6. CHAOS SECTION ---
-    const chaosTl = gsap.timeline({
-        scrollTrigger: {
-            trigger: ".chaos-section",
-            start: "top 50%",
-            end: "bottom top",
-            toggleActions: "play none none reverse"
-        }
-    });
-
-    chaosTl.to(".chaos-img", { opacity: 1, duration: 0.5 })
-           .to(".chaos-flash", { opacity: 0.4, duration: 0.2 })
-           .to(".chaos-flash", { opacity: 0, duration: 0.2 })
-           .to(".chaos-img", { scale: 1.05, duration: 0.4 })
-           .to(".chaos-flash", { opacity: 0.3, duration: 0.2 })
-           .to(".chaos-flash", { opacity: 0, duration: 0.2 })
-           .to(".chaos-img", { filter: "invert(0.2)", duration: 0.3 })
-           .to(".chaos-img", { filter: "none", duration: 0.3 });
-
+    if (document.querySelector('.chaos-section')) {
+        const chaosTl = gsap.timeline({
+            scrollTrigger: { trigger: ".chaos-section", start: "top 50%", end: "bottom top", toggleActions: "play none none reverse" }
+        });
+        chaosTl.to(".chaos-img", { opacity: 1, duration: 0.5 })
+               .to(".chaos-flash", { opacity: 0.4, duration: 0.2 })
+               .to(".chaos-flash", { opacity: 0, duration: 0.2 })
+               .to(".chaos-img", { scale: 1.05, duration: 0.4 })
+               .to(".chaos-flash", { opacity: 0.3, duration: 0.2 })
+               .to(".chaos-flash", { opacity: 0, duration: 0.2 })
+               .to(".chaos-img", { filter: "invert(0.2)", duration: 0.3 })
+               .to(".chaos-img", { filter: "none", duration: 0.3 });
+    }
 
     // --- 6. PERCEPTION DOMINANCE (POWER SYSTEM) ---
     const powerSvg = document.querySelector('#power-system-svg');
-    const powerLines = document.querySelector('.power-lines');
-    const powerNodes = document.querySelector('.power-nodes');
-    const powerCore = document.querySelector('.power-core');
-    
     if (powerSvg) {
+        const powerLines = document.querySelector('.power-lines');
+        const powerNodes = document.querySelector('.power-nodes');
+        const powerCore = document.querySelector('.power-core');
         const nodeCount = 12;
         const centerX = 500;
         const centerY = 500;
@@ -218,164 +270,43 @@ document.addEventListener("DOMContentLoaded", (event) => {
             const x = centerX + Math.cos(angle) * distance;
             const y = centerY + Math.sin(angle) * distance;
             
-            // Create Line
             const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
-            line.setAttribute("x1", centerX);
-            line.setAttribute("y1", centerY);
-            line.setAttribute("x2", x);
-            line.setAttribute("y2", y);
+            line.setAttribute("x1", centerX); line.setAttribute("y1", centerY);
+            line.setAttribute("x2", x); line.setAttribute("y2", y);
             line.classList.add("power-line");
             powerLines.appendChild(line);
             
-            // Create Node
             const node = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-            node.setAttribute("cx", x);
-            node.setAttribute("cy", y);
+            node.setAttribute("cx", x); node.setAttribute("cy", y);
             node.setAttribute("r", 4 + Math.random() * 4);
             node.classList.add("power-node");
             powerNodes.appendChild(node);
         }
 
         const powerTl = gsap.timeline({
-            scrollTrigger: {
-                trigger: "#perception-dominance",
-                start: "top 40%",
-                toggleActions: "play none none reverse"
-            }
+            scrollTrigger: { trigger: "#perception-dominance", start: "top 40%", toggleActions: "play none none reverse" }
         });
-
         powerTl.from(powerCore, { scale: 0, opacity: 0, duration: 1.2, ease: "power4.out" })
                .from(".power-line", { attr: { x2: centerX, y2: centerY }, opacity: 0, duration: 1.5, stagger: 0.1, ease: "power2.out" }, "-=0.6")
                .from(".power-node", { scale: 0, opacity: 0, duration: 0.8, stagger: 0.05, ease: "back.out(1.7)" }, "-=1");
 
-        // Continuous Ambient Breathing
-        gsap.to("#power-system-svg", {
-            scale: 1.05,
-            duration: 6,
-            repeat: -1,
-            yoyo: true,
-            ease: "sine.inOut"
-        });
+        gsap.to("#power-system-svg", { scale: 1.05, duration: 6, repeat: -1, yoyo: true, ease: "sine.inOut" });
     }
 
     // --- 7. EDITORIAL SECTION PARALLAX ---
-    gsap.to(".item-1", {
-        scrollTrigger: { trigger: ".editorial-section", scrub: true },
-        y: -100, ease: "none"
-    });
-    
-    gsap.to(".item-2", {
-        scrollTrigger: { trigger: ".editorial-section", scrub: true },
-        y: 100, ease: "none"
-    });
-    
-    gsap.to(".editorial-bg-words", {
-        scrollTrigger: { trigger: ".editorial-section", scrub: true },
-        scale: 1.1, ease: "none"
-    });
+    if (document.querySelector('.editorial-section')) {
+        gsap.to(".item-1", { scrollTrigger: { trigger: ".editorial-section", scrub: true }, y: -100, ease: "none" });
+        gsap.to(".item-2", { scrollTrigger: { trigger: ".editorial-section", scrub: true }, y: 100, ease: "none" });
+        gsap.to(".editorial-bg-words", { scrollTrigger: { trigger: ".editorial-section", scrub: true }, scale: 1.1, ease: "none" });
+    }
 
     // --- 9. NAVBAR SCROLL ---
     ScrollTrigger.create({
-        start: "top -50",
-        end: 99999,
+        start: "top -50", end: 99999,
         toggleClass: {className: "scrolled", targets: ".saso-nav"}
     });
 
-
-    // --- 8 & 9. APPLICATION FORM LOGIC ---
-    const applyBtn = document.getElementById('start-app-btn');
-    const closeBtn = document.getElementById('close-app-btn');
-    const appContainer = document.getElementById('application-flow');
-    const steps = document.querySelectorAll('.form-step');
-    const progressFill = document.querySelector('.progress-fill');
-    const totalSteps = steps.length;
-    let currentStepIndex = 0;
-
-    applyBtn.addEventListener('click', () => {
-        appContainer.classList.remove('hidden');
-        lenis.stop(); // Stop scroll when modal open
-    });
-
-    const closeApp = () => {
-        appContainer.classList.add('hidden');
-        lenis.start();
-        // optionally reset form
-    };
-
-    closeBtn.addEventListener('click', closeApp);
-    document.getElementById('finish-btn').addEventListener('click', closeApp);
-
-    // Step logic
-    const updateProgress = () => {
-        const percent = ((currentStepIndex + 1) / totalSteps) * 100;
-        progressFill.style.width = `${percent}%`;
-    };
-
-    const goToNextStep = () => {
-        if(currentStepIndex < totalSteps - 1) {
-            steps[currentStepIndex].classList.remove('active');
-            currentStepIndex++;
-            steps[currentStepIndex].classList.add('active');
-            updateProgress();
-        }
-    };
-
-    // Attach logic to option buttons (single click advances for pure choice questions)
-    document.querySelectorAll('.opt-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            // Find parent step array index
-            const parentStep = e.target.closest('.form-step');
-            const stepIndex = Array.from(steps).indexOf(parentStep);
-            
-            // Mark selected visually
-            parentStep.querySelectorAll('.opt-btn').forEach(b => b.classList.remove('selected'));
-            e.target.classList.add('selected');
-
-            // Timeout for visual feedback before transition
-            setTimeout(() => goToNextStep(), 300);
-        });
-    });
-
-    // Attach logic to text areas
-    document.querySelectorAll('input, textarea').forEach(field => {
-        const parentStep = field.closest('.form-step');
-        const nextBtn = parentStep.querySelector('.next-btn');
-        if(!nextBtn) return;
-
-        field.addEventListener('input', () => {
-            const inputs = parentStep.querySelectorAll('input[required]');
-            const textarea = parentStep.querySelector('textarea');
-            
-            let isValid = true;
-
-            if (inputs.length > 0) {
-                // Step 6 / Input validation logic
-                inputs.forEach(inp => {
-                    const val = inp.value.trim();
-                    if (val === "") isValid = false;
-                    if (inp.type === 'email' && (!val.includes('@') || !val.includes('.'))) isValid = false;
-                });
-            } else if (textarea) {
-                // Existing behavior for steps with textarea
-                if (textarea.value.trim().length <= 5) isValid = false;
-            }
-
-            if (isValid) nextBtn.removeAttribute('disabled');
-            else nextBtn.setAttribute('disabled', 'true');
-        });
-
-        if(!nextBtn.dataset.navListener) {
-            nextBtn.addEventListener('click', () => goToNextStep());
-            nextBtn.dataset.navListener = 'true';
-        }
-    });
-
-    // Init progress
-    updateProgress();
-
-    // --- 10. ALWAYS-ACTIVE TERMINAL LOGIC & PARALLAX ---
-    
-    // Scramble Text Effect (v3.0)
+    // Scramble Text
     class TextScramble {
         constructor(el) {
             this.el = el;
@@ -400,37 +331,22 @@ document.addEventListener("DOMContentLoaded", (event) => {
             return promise;
         }
         update() {
-            let output = '';
-            let complete = 0;
+            let output = ''; let complete = 0;
             for (let i = 0, n = this.queue.length; i < n; i++) {
                 let { from, to, start, end, char } = this.queue[i];
-                if (this.frame >= end) {
-                    complete++;
-                    output += to;
-                } else if (this.frame >= start) {
-                    if (!char || Math.random() < 0.28) {
-                        char = this.randomChar();
-                        this.queue[i].char = char;
-                    }
+                if (this.frame >= end) { complete++; output += to; }
+                else if (this.frame >= start) {
+                    if (!char || Math.random() < 0.28) { char = this.randomChar(); this.queue[i].char = char; }
                     output += `<span class="d-flicker">${char}</span>`;
-                } else {
-                    output += from;
-                }
+                } else { output += from; }
             }
             this.el.innerHTML = output;
-            if (complete === this.queue.length) {
-                this.resolve();
-            } else {
-                this.frameRequest = requestAnimationFrame(this.update);
-                this.frame++;
-            }
+            if (complete === this.queue.length) this.resolve();
+            else { this.frameRequest = requestAnimationFrame(this.update); this.frame++; }
         }
-        randomChar() {
-            return this.chars[Math.floor(Math.random() * this.chars.length)];
-        }
+        randomChar() { return this.chars[Math.floor(Math.random() * this.chars.length)]; }
     }
 
-    // Initialize scramble on all dashboard titles and key messages
     document.querySelectorAll('[data-scramble]').forEach(line => {
         const scrambler = new TextScramble(line);
         const originalText = line.innerText;
@@ -438,21 +354,51 @@ document.addEventListener("DOMContentLoaded", (event) => {
         scrambler.setText(originalText);
     });
 
-    // Mouse Parallax for Immersive BG
     const immersiveBg = document.querySelector('.fused-immersive-bg');
     if (immersiveBg) {
         window.addEventListener('mousemove', (e) => {
             const x = (e.clientX / window.innerWidth - 0.5) * 40;
             const y = (e.clientY / window.innerHeight - 0.5) * 40;
-            gsap.to(immersiveBg, {
-                x: x, y: y,
-                duration: 2.5,
-                ease: "power2.out"
+            gsap.to(immersiveBg, { x: x, y: y, duration: 2.5, ease: "power2.out" });
+        });
+    }
+
+    // --- 10. MOBILE MENU TOGGLE ---
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const mobileOverlay = document.getElementById('mobile-overlay');
+    const overlayCloseBtn = document.getElementById('overlay-close-btn');
+    const overlayLinks = document.querySelectorAll('.overlay-link');
+
+    if (mobileMenuBtn && mobileOverlay) {
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileOverlay.classList.add('active');
+            lenis.stop();
+        });
+
+        const closeMenu = () => {
+            mobileOverlay.classList.remove('active');
+            lenis.start();
+        };
+
+        if (overlayCloseBtn) overlayCloseBtn.addEventListener('click', closeMenu);
+        
+        overlayLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                closeMenu();
+                // If it's an anchor, handle scroll
+                const href = link.getAttribute('href');
+                if (href.startsWith('#')) {
+                    const target = document.querySelector(href);
+                    if (target) {
+                        setTimeout(() => {
+                            lenis.scrollTo(target, { offset: -80 });
+                        }, 300);
+                    }
+                }
             });
         });
     }
 
-    // Real-time counter logic
     const runtimeDisplay = document.querySelector('.runtime-counter');
     if (runtimeDisplay) {
         let seconds = 0;

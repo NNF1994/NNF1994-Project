@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplicar — SASO Enterprise Engineering</title>
+    <meta name="description" content="Aplica para construir tu sistema de ingeniería empresarial con SASO.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Syne:wght@600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="dark-theme">
+
+    <!-- NAVBAR -->
+    <nav id="navbar" class="saso-nav">
+        <div class="nav-container">
+            <a href="/" class="nav-logo">SASO</a>
+            <div class="nav-links">
+                <a href="/#system">Sistema</a>
+                <a href="/#process-pin">Proceso</a>
+                <a href="/#results">Resultados</a>
+                <a href="/formulario" class="nav-apply selected">Aplicar</a>
+            </div>
+        </div>
+    </nav>
+
+    <div id="smooth-wrapper">
+        <div id="smooth-content">
+
+            <!-- FORM HERO -->
+            <section id="form-hero" class="hero-section mini-hero">
+                <div class="hero-bg">
+                    <div class="noise-overlay"></div>
+                </div>
+                <div class="hero-content">
+                    <p class="hero-subtitle">SYSTEM ACCESS</p>
+                    <h1 class="hero-title glitch" data-text="Terminal de Aplicación">Terminal de<br>Aplicación</h1>
+                    <p class="hero-branding">SASO — Deployment Protocol</p>
+                </div>
+            </section>
+
+            <!-- APPLICATION FORM -->
+            <section id="cta" class="cta-section content-container standalone-form">
+                <div id="application-flow" class="application-container">
+                    <div class="form-wrapper">
+                        <div class="form-header">
+                            <div class="progress-bar"><div class="progress-fill"></div></div>
+                            <a href="/" class="close-btn" style="text-decoration: none;">&times;</a>
+                        </div>
+                        
+                        <div class="form-steps-container">
+                            <div class="form-step active" data-step="1">
+                                <h3>Etapa del negocio</h3>
+                                <div class="options-grid">
+                                    <button class="opt-btn">Idea / Desarrollo</button>
+                                    <button class="opt-btn">Lanzamiento</button>
+                                    <button class="opt-btn">Operando (menos de $10,000 USD / mes)</button>
+                                    <button class="opt-btn">Escalando (más de $10,000 USD / mes)</button>
+                                </div>
+                            </div>
+
+                            <div class="form-step" data-step="2">
+                                <h3>Ingresos actuales (mensuales)</h3>
+                                <div class="options-grid split-col">
+                                    <button class="opt-btn">$0 – $5,000 USD / mes</button>
+                                    <button class="opt-btn">$5,000 – $20,000 USD / mes</button>
+                                    <button class="opt-btn">$20,000 – $50,000 USD / mes</button>
+                                    <button class="opt-btn">Más de $50,000 USD / mes</button>
+                                </div>
+                            </div>
+
+                            <div class="form-step" data-step="3">
+                                <h3>¿Qué quieres construir?</h3>
+                                <textarea placeholder="Describe el objetivo de tu empresa, qué quieres lograr y hacia dónde buscas escalar." rows="3" id="q-build"></textarea>
+                                <button class="saso-btn next-btn" disabled>Continuar</button>
+                            </div>
+
+                            <div class="form-step" data-step="4">
+                                <h3>Principal problema</h3>
+                                <textarea placeholder="¿Qué está frenando tu crecimiento actualmente?" rows="3" id="q-problem"></textarea>
+                                <button class="saso-btn next-btn" disabled>Continuar</button>
+                            </div>
+
+                            <div class="form-step" data-step="5">
+                                <h3>Capacidad de inversión</h3>
+                                <div class="options-grid split-col">
+                                    <button class="opt-btn">$1,000 – $3,000 USD</button>
+                                    <button class="opt-btn">$3,000 – $10,000 USD</button>
+                                    <button class="opt-btn">Más de $10,000 USD</button>
+                                </div>
+                            </div>
+
+                            <div class="form-step" data-step="6">
+                                <h3>Datos de contacto</h3>
+                                <div class="options-grid">
+                                    <input type="text" placeholder="Nombre o nombre de la empresa" required>
+                                    <input type="tel" placeholder="Número de contacto" required>
+                                    <input type="email" placeholder="Correo electrónico" required>
+                                    <textarea placeholder="Agrega cualquier información relevante sobre tu empresa o proyecto" rows="2"></textarea>
+                                </div>
+                                <button class="saso-btn next-btn mt-large" disabled>Continuar</button>
+                            </div>
+
+                            <div class="form-step end" data-step="7">
+                                <h3 class="success-msg highlight-neon">Si tu perfil es seleccionado, te contactaremos.</h3>
+                                <p>Diseñamos sistemas. No trabajamos con todos.</p>
+                                <a href="/" class="saso-btn mt-large" style="text-decoration: none; display: inline-block; line-height: 1;">VOLVER AL INICIO</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div> <!-- /smooth-content -->
+        
+        <!-- FOOTER -->
+        <footer class="saso-footer content-container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3>SASO</h3>
+                    <p>Enterprise Engineering</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Qué hacemos</h4>
+                    <a href="/#manifesto">Manifiesto</a>
+                    <a href="/#system">Estructura</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Servicios</h4>
+                    <a href="/#process-pin">Proceso</a>
+                    <a href="/#results">Resultados</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Empresa</h4>
+                    <a href="/#editorial">Arte y Capital</a>
+                    <a href="/formulario">Contacto</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 SASO Enterprise Engineering. Todos los derechos reservados.</p>
+            </div>
+        </footer>
+
+    </div> <!-- /smooth-wrapper -->
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.39/dist/lenis.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    
+    <script src="assets/js/main.js"></script>
+</body>
+</html>

@@ -3,9 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SASO — Enterprise Engineering</title>
-    <meta name="description" content="Diseñamos sistemas que generan dinero. Obras maestras de ingeniería empresarial.">
+    <title>SASO — Enterprise Engineering | Ingeniería de Poder Corporativo</title>
+    <meta name="description" content="Diseñamos sistemas que generan dinero. Obras maestras de ingeniería empresarial para negocios de alto impacto en México. SASO es infraestructura, no una agencia.">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
     
+    <!-- Open Graph -->
+    <meta property="og:title" content="SASO — Enterprise Engineering">
+    <meta property="og:description" content="Diseñamos, estructuramos y escalamos empresas completas. Ingeniería de alto nivel para negocios de alto impacto.">
+    <meta property="og:image" content="https://saso.mx/assets/images/saso_hero_art_v3.png">
+    <meta property="og:type" content="website">
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "SASO",
+      "url": "https://saso.mx",
+      "logo": "https://saso.mx/favicon.svg",
+      "description": "Diseñamos sistemas que generan dinero. Obras maestras de ingeniería empresarial.",
+      "sameAs": []
+    }
+    </script>
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -26,10 +46,33 @@
                 <a href="#system">Sistema</a>
                 <a href="#process-pin">Proceso</a>
                 <a href="#results">Resultados</a>
-                <a href="#cta" class="nav-apply">Aplicar</a>
+                <a href="/formulario" class="nav-apply">Aplicar</a>
+            </div>
+            <!-- Mobile Navigation Components -->
+            <a href="/formulario" class="nav-apply mobile-only-btn">Aplicar</a>
+            <div class="menu-trigger" id="mobile-menu-btn">
+                <span class="m-line-1"></span>
+                <span class="m-line-2"></span>
             </div>
         </div>
     </nav>
+
+    <!-- Mobile Nav Overlay -->
+    <div id="mobile-overlay" class="mobile-nav-overlay">
+        <div class="overlay-close" id="overlay-close-btn">&times;</div>
+        <div class="overlay-content">
+            <a href="/index" class="overlay-link">Inicio</a>
+            <a href="#system" class="overlay-link">Sistema</a>
+            <a href="#process-pin" class="overlay-link">Proceso</a>
+            <a href="#results" class="overlay-link">Resultados</a>
+            <a href="/blog/index" class="overlay-link">Blog</a>
+            <a href="/formulario" class="overlay-link highlight-neon">Aplicar</a>
+        </div>
+        <div class="overlay-footer">
+            <span>SASO // ENTERPRISE ENGINEERING</span>
+            <span>v.2026.04</span>
+        </div>
+    </div>
 
     <div id="smooth-wrapper">
         <div id="smooth-content">
@@ -425,78 +468,9 @@
                 <div class="cta-intro">
                     <h2>No trabajamos con todos.</h2>
                     <p class="cta-subtitle">Si estás listo para operar como grande… aplica.</p>
-                    <button id="start-app-btn" class="saso-btn primary-btn mt-large">APLICAR PARA CONSTRUIR TU EMPRESA</button>
+                    <a href="/formulario" id="start-app-btn" class="saso-btn primary-btn mt-large" style="text-decoration: none; display: inline-block;">APLICAR PARA CONSTRUIR TU EMPRESA</a>
                 </div>
 
-                <!-- App Form Modal/Drawer -->
-                <div id="application-flow" class="application-container hidden">
-                    <div class="form-wrapper">
-                        <div class="form-header">
-                            <div class="progress-bar"><div class="progress-fill"></div></div>
-                            <button id="close-app-btn" class="close-btn">&times;</button>
-                        </div>
-                        
-                        <div class="form-steps-container">
-                            <div class="form-step active" data-step="1">
-                                <h3>Etapa del negocio</h3>
-                                <div class="options-grid">
-                                    <button class="opt-btn">Idea / Desarrollo</button>
-                                    <button class="opt-btn">Lanzamiento</button>
-                                    <button class="opt-btn">Operando (menos de $10,000 USD / mes)</button>
-                                    <button class="opt-btn">Escalando (más de $10,000 USD / mes)</button>
-                                </div>
-                            </div>
-
-                            <div class="form-step" data-step="2">
-                                <h3>Ingresos actuales (mensuales)</h3>
-                                <div class="options-grid split-col">
-                                    <button class="opt-btn">$0 – $5,000 USD / mes</button>
-                                    <button class="opt-btn">$5,000 – $20,000 USD / mes</button>
-                                    <button class="opt-btn">$20,000 – $50,000 USD / mes</button>
-                                    <button class="opt-btn">Más de $50,000 USD / mes</button>
-                                </div>
-                            </div>
-
-                            <div class="form-step" data-step="3">
-                                <h3>¿Qué quieres construir?</h3>
-                                <textarea placeholder="Describe el objetivo de tu empresa, qué quieres lograr y hacia dónde buscas escalar." rows="3" id="q-build"></textarea>
-                                <button class="saso-btn next-btn" disabled>Continuar</button>
-                            </div>
-
-                            <div class="form-step" data-step="4">
-                                <h3>Principal problema</h3>
-                                <textarea placeholder="¿Qué está frenando tu crecimiento actualmente?" rows="3" id="q-problem"></textarea>
-                                <button class="saso-btn next-btn" disabled>Continuar</button>
-                            </div>
-
-                            <div class="form-step" data-step="5">
-                                <h3>Capacidad de inversión</h3>
-                                <div class="options-grid split-col">
-                                    <button class="opt-btn">$1,000 – $3,000 USD</button>
-                                    <button class="opt-btn">$3,000 – $10,000 USD</button>
-                                    <button class="opt-btn">Más de $10,000 USD</button>
-                                </div>
-                            </div>
-
-                            <div class="form-step" data-step="6">
-                                <h3>Datos de contacto</h3>
-                                <div class="options-grid">
-                                    <input type="text" placeholder="Nombre o nombre de la empresa" required>
-                                    <input type="tel" placeholder="Número de contacto" required>
-                                    <input type="email" placeholder="Correo electrónico" required>
-                                    <textarea placeholder="Agrega cualquier información relevante sobre tu empresa o proyecto" rows="2"></textarea>
-                                </div>
-                                <button class="saso-btn next-btn mt-large" disabled>Continuar</button>
-                            </div>
-
-                            <div class="form-step end" data-step="7">
-                                <h3 class="success-msg highlight-neon">Si tu perfil es seleccionado, te contactaremos.</h3>
-                                <p>Diseñamos sistemas. No trabajamos con todos.</p>
-                                <button id="finish-btn" class="saso-btn mt-large">CERRAR</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </section>
 
         </div> <!-- /smooth-content -->
@@ -520,8 +494,14 @@
                 </div>
                 <div class="footer-col">
                     <h4>Empresa</h4>
-                    <a href="#editorial">Arte y Capital</a>
-                    <a href="#cta">Contacto</a>
+                    <a href="/blog/index">Blog</a>
+                    <a href="/formulario">Contacto</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Autoridad</h4>
+                    <a href="creacion-de-empresas.html">Creación</a>
+                    <a href="ingenieria-fiscal-autoridad.html">Fiscal</a>
+                    <a href="automatizacion-empresarial.html">Sistemas</a>
                 </div>
             </div>
             <div class="footer-bottom">

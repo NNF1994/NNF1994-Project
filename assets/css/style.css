@@ -1247,6 +1247,22 @@ p {
     backdrop-filter: blur(10px);
 }
 
+/* Standalone Form Page Overrides */
+.standalone-form .application-container {
+    position: relative;
+    width: 100%;
+    height: auto;
+    min-height: 80vh;
+    background: none;
+    backdrop-filter: none;
+    z-index: 1;
+    margin: 4rem 0;
+}
+
+.standalone-form .form-wrapper {
+    margin: 0 auto;
+}
+
 .form-wrapper {
     width: 90%;
     max-width: 600px;
@@ -2281,3 +2297,533 @@ textarea:focus, input:focus {
     opacity: 0.3;
 }
 
+/* 11. EDITORIAL BLOCK (ARTE Y CAPITAL) */
+.editorial-block {
+    background: #000;
+    border-top: 1px solid #1a1a1a;
+    padding: 8vh 5vw;
+}
+
+.editorial-header {
+    margin-bottom: 4rem;
+    border-left: 3px solid var(--neon-green);
+    padding-left: 2rem;
+}
+
+.editorial-tag {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--neon-green);
+    letter-spacing: 0.1em;
+}
+
+.chiquito-title {
+    font-family: var(--font-heading);
+    font-size: 2.2rem;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    margin-top: 0.5rem;
+    color: var(--white);
+    /* Glitch shadow parity */
+    text-shadow: 1px 1px 0px var(--red), -1px -1px 0px var(--neon-green);
+}
+
+.editorial-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    max-width: 1000px;
+}
+
+.editorial-item {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 2rem;
+    padding: 2.5rem 0;
+    border-bottom: 1px solid #1a1a1a;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.4s ease;
+}
+
+.editorial-item:hover {
+    padding-left: 2rem;
+    background: linear-gradient(to right, rgba(57, 255, 20, 0.05), transparent);
+}
+
+.item-num {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #333;
+    transition: color 0.4s;
+}
+
+.editorial-item:hover .item-num {
+    color: var(--neon-green);
+}
+
+.item-content h3 {
+    font-family: var(--font-heading);
+    font-size: 1.4rem;
+    margin-bottom: 0.75rem;
+    transition: color 0.4s;
+}
+
+.editorial-item:hover .item-content h3 {
+    color: var(--neon-green);
+}
+
+.item-content p {
+    font-size: 1rem;
+    max-width: 600px;
+    opacity: 0.5;
+}
+
+@media (max-width: 768px) {
+    .editorial-item { grid-template-columns: 1fr; gap: 0.5rem; }
+    .item-num { font-size: 1.2rem; }
+}
+
+/* 12. AUTHORITY PAGE STYLES */
+.authority-layout {
+    max-width: 900px;
+    margin: 15vh auto;
+    padding: 0 5vw;
+    line-height: 1.8;
+}
+
+.authority-title {
+    font-family: var(--font-heading);
+    font-size: 2.5rem;
+    margin-bottom: 4rem;
+    text-shadow: 1px 1px 0px var(--red), -1px -1px 0px var(--neon-green);
+}
+
+.authority-content section {
+    margin-bottom: 4rem;
+}
+
+.authority-content h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    color: var(--white);
+    border-bottom: 1px solid #333;
+    padding-bottom: 0.5rem;
+}
+
+.authority-content p {
+    margin-bottom: 1.5rem;
+    opacity: 0.85;
+}
+
+.authority-content ul {
+    margin: 1.5rem 0;
+    padding-left: 1.5rem;
+}
+
+.authority-content li {
+    margin-bottom: 0.75rem;
+    color: #ccc;
+}
+
+/* 13. EDITORIAL HERO & IMAGES */
+.editorial-hero {
+    width: 100vw;
+    height: 70vh;
+    margin-left: calc(-50vw + 50%);
+    margin-bottom: 5rem;
+    position: relative;
+    overflow: hidden;
+    background: #000 !important;
+    border: none !important;
+    outline: none !important;
+}
+
+.editorial-hero img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: scale(1.01);
+    filter: grayscale(0.5) contrast(1.1);
+    transition: all 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.editorial-hero:hover img {
+    filter: grayscale(0) contrast(1.1);
+    transform: scale(1.03);
+}
+
+.editorial-hero::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.95));
+    pointer-events: none;
+}
+
+/* 14. COMPLETE BLOG ARCHITECTURE */
+.blog-article-grid {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 4rem;
+    align-items: flex-start;
+}
+
+.blog-sidebar {
+    background: #080808;
+    border: 1px solid #1a1a1a;
+    padding: 2.5rem;
+    position: sticky;
+    top: 100px;
+}
+
+.sidebar-widget {
+    margin-bottom: 3rem;
+}
+
+.sidebar-widget h4 {
+    font-family: var(--font-heading);
+    font-size: 0.9rem;
+    color: var(--neon-green);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid #222;
+    padding-bottom: 0.5rem;
+}
+
+.sidebar-links {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.sidebar-links a {
+    color: #888;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.3s;
+}
+
+.sidebar-links a:hover {
+    color: var(--white);
+}
+
+.article-footer-nav {
+    display: flex;
+    justify-content: space-between;
+    padding: 4rem 0;
+    margin-top: 4rem;
+    border-top: 1px solid #1a1a1a;
+}
+
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    text-decoration: none;
+    max-width: 45%;
+}
+
+.nav-label {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--neon-green);
+    text-transform: uppercase;
+}
+
+.nav-title {
+    font-family: var(--font-heading);
+    font-size: 1.1rem;
+    color: var(--white);
+    line-height: 1.2;
+}
+
+.breadcrumb-nav {
+    margin-bottom: 2rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: #555;
+    text-transform: uppercase;
+}
+
+.breadcrumb-nav a {
+    color: #555;
+    text-decoration: none;
+}
+
+.breadcrumb-nav a:hover {
+    color: var(--neon-green);
+}
+
+@media (max-width: 1024px) {
+    .blog-article-grid { grid-template-columns: 1fr; }
+    .blog-sidebar { position: static; margin-top: 4rem; }
+}
+
+/* --- MOBILE RESPONSIVE ADAPTATION (STRICT MODE V21) --- */
+@media (max-width: 768px) {
+    /* Globals */
+    html, body {
+        overflow-x: hidden !important;
+        position: relative;
+        width: 100vw;
+    }
+
+    .content-container {
+        padding: 4rem 20px;
+        width: 100%;
+        overflow: hidden;
+    }
+
+    h1 { font-size: clamp(2.2rem, 10vw, 4rem) !important; line-height: 1.1; }
+    h2 { font-size: clamp(1.8rem, 8vw, 3rem) !important; line-height: 1.1; }
+    h3 { font-size: clamp(1.5rem, 6vw, 2.2rem) !important; }
+    p { font-size: 1rem; line-height: 1.5; }
+
+    /* Layout Stacking */
+    .wwd-grid, .footer-grid, .console-grid, .results-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    /* 1. HERO SECTION MOBILE */
+    .hero-section {
+        height: 100svh; /* use svh for mobile bars */
+    }
+    .hero-content {
+        padding: 2.5rem 1.5rem;
+        max-width: 100%;
+        gap: 1rem;
+        background: linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0.6), transparent);
+    }
+    .hero-title {
+        font-size: clamp(2.2rem, 10vw, 3.5rem);
+    }
+
+    .tag-label { width: fit-content; font-size: 0.65rem; }
+
+    /* INTERNAL DASHBOARD PAGES */
+    .hacker-terminal-title {
+        font-size: clamp(1.5rem, 9vw, 3rem) !important;
+        white-space: normal !important;
+        width: 100% !important;
+        display: block !important;
+        border-right: none !important;
+        animation: none !important; 
+        text-align: center;
+        word-break: break-word;
+        hyphens: auto;
+        line-height: 1.1 !important;
+    }
+
+    .hacker-console-footer {
+        padding: 2rem 20px !important;
+    }
+
+    .console-message {
+        border-left: none !important;
+        padding-left: 0 !important;
+        margin-top: 2rem;
+        text-align: center;
+    }
+
+    .console-message .text {
+        font-size: clamp(1.4rem, 6vw, 2rem) !important;
+    }
+
+    .console-pillars li {
+        font-size: 0.9rem !important;
+    }
+
+    .lvl-tag {
+        font-size: 0.75rem !important;
+        letter-spacing: 1px !important;
+        padding: 4px 10px !important;
+    }
+
+    /* 9. NAVBAR MOBILE REFINEMENT */
+    .nav-links { display: none !important; }
+    
+    .nav-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .mobile-only-btn {
+        display: block !important;
+        margin-left: auto;
+        margin-right: 1.5rem;
+        font-size: 0.75rem !important;
+        padding: 0.5rem 1rem !important;
+        background-color: var(--neon-green) !important;
+        color: var(--black) !important;
+        border: none !important;
+        border-radius: 2px;
+        font-weight: 800 !important;
+    }
+
+    .menu-trigger {
+        display: flex !important;
+        flex-direction: column;
+        justify-content: center;
+        gap: 6px;
+        width: 30px;
+        height: 30px;
+        cursor: pointer;
+        z-index: 1100;
+    }
+    .menu-trigger span {
+        display: block;
+        width: 100%;
+        height: 2px;
+        background: var(--white);
+        transition: 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    /* MOBILE NAV OVERLAY */
+    .mobile-nav-overlay {
+        position: fixed;
+        top: 0; left: 0;
+        width: 100vw; height: 100vh;
+        background: #000;
+        z-index: 2000;
+        padding: 15vh 10vw;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        visibility: hidden;
+        opacity: 0;
+        transition: all 0.4s ease;
+    }
+    .mobile-nav-overlay.active {
+        visibility: visible;
+        opacity: 1;
+    }
+
+    .overlay-close {
+        position: absolute;
+        top: 2rem; right: 2rem;
+        font-size: 3rem;
+        color: var(--white);
+        cursor: pointer;
+        line-height: 1;
+    }
+
+    .overlay-content {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    .overlay-link {
+        font-family: var(--font-heading);
+        font-size: clamp(1.8rem, 8vw, 2.8rem);
+        padding-right: 5vw;
+        font-weight: 800;
+        text-transform: uppercase;
+        text-decoration: none;
+        color: var(--white);
+        line-height: 1;
+        transition: transform 0.3s;
+    }
+    .overlay-link.highlight-neon { color: var(--neon-green); } .overlay-link:active {
+        color: var(--neon-green);
+        transform: translateX(10px);
+    }
+
+    .overlay-footer {
+        border-top: 1px solid #1a1a1a;
+        padding-top: 2rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        font-family: var(--font-mono);
+        font-size: 0.6rem;
+        color: #444;
+        letter-spacing: 2px;
+    }
+
+    /* 3. SYSTEM SECTION MOBILE */
+    .system-left { padding: 4rem 6vw; }
+    .system-visual {
+        max-height: 80vw !important;
+        border-bottom: 2px solid #111;
+    }
+    .node { width: 24px; height: 24px; } /* larger touch targets */
+    .node::after { font-size: 0.6rem; top: -20px; }
+    
+    .perception-section .power-title {
+        font-size: clamp(1.8rem, 8vw, 3rem) !important;
+    }
+    
+    #power-system-svg {
+        transform: scale(0.8);
+    }
+
+    /* 4. PROCESS MOBILE */
+    .step-card { 
+        padding: 0 20px; 
+        min-width: 100vw; 
+        flex-shrink: 0;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    .step-num { font-size: 1.5rem; margin-bottom: 0.2rem; }
+    .step-title { 
+        font-size: clamp(1.2rem, 8vw, 2.2rem) !important; 
+        white-space: normal !important;
+        word-break: break-word;
+        hyphens: auto;
+        line-height: 1.0;
+        max-width: 100%;
+    }
+
+    /* 7. EDITORIAL/COLLAGE MOBILE */
+    .editorial-section { padding: 8rem 0; }
+    .collage-container {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        height: auto;
+        padding: 0 6vw;
+    }
+    .collage-item {
+        position: relative !important;
+        width: 100% !important;
+        top: auto !important;
+        left: auto !important;
+        right: auto !important;
+        bottom: auto !important;
+        transform: none !important;
+        box-shadow: 10px 10px 0px var(--accent) !important;
+    }
+    .terminal-window {
+        width: 100%;
+        margin-top: 2rem;
+    }
+
+    /* 8. FORM MOBILE */
+    .form-wrapper {
+        padding: 2rem 1.5rem;
+        width: 95%;
+    }
+    .form-step h3 { font-size: 1.5rem; }
+    textarea, input { font-size: 1rem; }
+    .options-grid.split-col { grid-template-columns: 1fr !important; }
+
+    /* Footer MOBILE */
+    .footer-col h3 { font-size: 1.5rem; }
+}
+
+/* Base Utility for Navigation Visibility */
+@media (min-width: 769px) {
+    .mobile-only-btn, .menu-trigger, .mobile-nav-overlay { display: none !important; }
+}
+@media (max-width: 768px) {
+    .mobile-only-btn { display: block; }
+}
